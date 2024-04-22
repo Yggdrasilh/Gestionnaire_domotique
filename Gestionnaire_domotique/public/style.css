@@ -1,0 +1,428 @@
+/***************************** Starter Pack *****************************/
+:root {
+    --nav-h: 50px;
+    --fond-color: #191919;
+    --aside-color: #e8e8e8;
+    --element-background-color: #262626;
+    --text-color: #rgb(242, 241, 241);
+    --max-with-content: calc(80% - 230px);
+
+}
+
+body {
+    background-color: var(--fond-color) !important;
+    min-height: 100vh;
+    width: 100%;
+}
+
+#wrapper {
+    width: 100%;
+    background-color: var(--fond-color);
+    color: white;
+    min-height: 80vh;
+
+}
+
+#corpsPage {
+    width: 100%;
+    min-height: 80vh;
+}
+
+#contenuPage {
+    width: 80%;
+    max-width: var(--max-with-content);
+    margin-left: 20%;
+    padding: 2%;
+
+}
+
+footer {
+    width: 80%;
+    margin-left: 20%;
+    text-align: center;
+    color: white;
+
+    & #copyright {
+        margin-bottom: 0;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.card {
+    background-color: var(--element-background-color);
+}
+
+/*************************************************************************************************/
+
+/***************************** Side bar *****************************/
+
+#menuAside {
+    background-color: var(--element-background-color);
+    width: 20%;
+    z-index: 0;
+    max-height: 92%;
+    min-width: 230px;
+    border-bottom-right-radius: 20px;
+    top: 50px;
+
+    & h5,
+    a {
+        color: var(--aside-color);
+        text-decoration: none;
+    }
+}
+
+#compteUserBurger {
+    display: none;
+}
+
+#selectAffichage {
+    color: var(--aside-color);
+    font-size: 1.5em;
+    padding: 0 0.3rem;
+    border: solid 1px #A4A4A4;
+    border-radius: 10px;
+    opacity: 0.5;
+}
+
+.sectionBurger {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 3%;
+    padding: 5%;
+    border-bottom: solid 2px #3d3d3d;
+
+    & h5 {
+        width: 100%;
+    }
+}
+
+.actionBurger {
+    display: flex;
+    align-items: center;
+    margin: 0.5em 0;
+
+    & p {
+        margin: 0 0.5em;
+    }
+}
+
+/*************************************************************************************************/
+
+/***************************** Nav *****************************/
+header {
+    height: var(--nav-h);
+}
+
+#navigation {
+    width: 100vw;
+    margin-bottom: var(--nav-h);
+    position: fixed;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    background-color: var(--element-background-color);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    & a {
+        text-decoration: none;
+        color: white;
+    }
+}
+
+#LogoSite {
+    width: 50px;
+    margin-left: 30px;
+}
+
+#nomFoyer {
+    margin: 0 auto;
+}
+
+#compteUser {
+    display: flex;
+    align-items: center;
+    margin-right: 6%;
+
+    & #boutonUser {
+        display: flex;
+        align-items: center;
+
+        & #textePhotoUser {
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+
+        & #photoUser {
+            background-color: white;
+            border-radius: 50%;
+            width: 50px;
+        }
+    }
+
+    & #boutonDeconnection {
+        margin-left: 20px;
+    }
+}
+
+#boutonBurger {
+    display: none;
+}
+
+/*************************************************************************************************/
+
+/***************************** Authentification & inscription *****************************/
+#formLogBlock {
+    position: fixed;
+    width: 60%;
+    right: 20%;
+    top: 20%;
+
+
+    & p {
+        text-align: end;
+    }
+}
+
+#formaddBlock {
+    position: fixed;
+    width: 60%;
+    right: 20%;
+    top: 10%;
+
+}
+
+/*************************************************************************************************/
+
+/***************************** Accueil *****************************/
+
+#listeModulesAccueil {
+    display: flex;
+    flex-wrap: wrap;
+
+    & .card {
+        width: 18rem;
+        height: 18rem;
+        margin: 0 1rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        justify-content: center;
+        background-color: var(--element-background-color);
+
+        & .card-img-overlay {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.2);
+
+            .card-title {
+                font-size: 2.5rem;
+            }
+        }
+    }
+}
+
+
+
+
+/*************************************************************************************************/
+
+/***************************** Foyer *****************************/
+#listeFoyers {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mesFoyers {
+    width: 18rem !important;
+    margin: 2%;
+
+    /* .imgFoyers {
+        height: 66%;
+    } */
+}
+
+.actionAdminFoyer {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+/*************************** Form update Foyer ***************************/
+#foyerUpdateForm {
+    position: fixed;
+    z-index: 21;
+    background-color: var(--element-background-color);
+    color: white;
+    max-width: 60vw;
+    top: 20vh;
+    left: 38vw;
+    border-radius: 15px;
+    padding: 4%;
+}
+
+#exitForm {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, 0.3);
+    left: 0;
+    top: 0;
+}
+
+/*************************** User of Foyer ***************************/
+.userOfFoyer {
+    width: 12rem;
+    margin: 0.5em 1em;
+}
+
+#addUserToFoyer {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+#updateRoleForm {
+    position: fixed;
+    z-index: 21;
+    background-color: var(--element-background-color);
+    color: white;
+    max-width: 60vw;
+    top: 20vh;
+    left: 38vw;
+    border-radius: 15px;
+    padding: 4%;
+}
+
+#userAddSearch {
+    margin-bottom: 1rem;
+}
+
+
+/*************************************************************************************************/
+
+/***************************** Modules *****************************/
+
+/***************************** Modules Form */
+#ajoutModuleForm {
+    padding-top: 1rem;
+    margin: 0 auto;
+    max-width: 50rem;
+}
+
+/***************************** Modules Tableau de bord */
+#listeModulesTB {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.eltTablBord {
+    width: 12rem;
+    margin: 1rem;
+
+    & .card-img-top {
+        height: 12rem;
+    }
+
+    & .card-title {
+        margin-bottom: 0;
+    }
+
+    & .actionTablBord {
+        display: flex;
+        justify-content: space-between;
+
+        & a {
+            align-self: center;
+        }
+    }
+}
+
+/*************************************************************************************************/
+
+/***************************** User profil *****************************/
+/************************** Profil utilisateur */
+.profilcard {
+    max-width: 20rem;
+}
+
+
+
+
+/*************************************************************************************************/
+/***************************** Responsive *****************************/
+/*************************************************************************************************/
+
+/***************************** Smartphone **********************************************************/
+@media screen and (max-width:900px) and (orientation : portrait) {
+
+    /***************************** Starter Pack *****************************/
+    :root {
+        --nav-h: 50px;
+        --fond-color: #191919;
+        --aside-color: #e8e8e8;
+        --element-background-color: #262626;
+        --text-color: #rgb(242, 241, 241);
+        --max-with-content: calc(80% - 230px);
+
+    }
+
+    body {
+        background-color: var(--fond-color) !important;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    #wrapper {
+        width: 100%;
+        background-color: var(--fond-color);
+        color: white;
+        min-height: 80vh;
+
+    }
+
+    #corpsPage {
+        width: 100%;
+        min-height: 80vh;
+    }
+
+    #contenuPage {
+        width: 80%;
+        max-width: var(--max-with-content);
+        margin-left: 20%;
+        padding: 2%;
+
+    }
+
+    footer {
+        width: 80%;
+        margin-left: 20%;
+        text-align: center;
+        color: white;
+
+        & #copyright {
+            margin-bottom: 0;
+        }
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .card {
+        background-color: var(--element-background-color);
+    }
+
+}
