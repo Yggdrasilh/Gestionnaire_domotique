@@ -1,4 +1,4 @@
-var urlSite = 'https://monsite7946.000webhostapp.com/public/';
+var urlSite = 'https://';
 // ***************************** Starter pack ***************************************************
 
 function fondFormExit(id) {
