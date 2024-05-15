@@ -12,8 +12,8 @@ abstract class Controller
 {
 
 
-    protected $baseUrlApi = "http://application/Api_GD/public/";  // Base d'url pour l'API
-    protected $baseUrlSite = "http://application/Gestionnaire_domotique/public/"; //base d'url pour le Site
+    protected $baseUrlApi = "https://monsite7946.000webhostapp.com/Api_GD/public/";  // Base d'url pour l'API
+    protected $baseUrlSite = "https://monsite7946.000webhostapp.com/public/"; //base d'url pour le Site
 
 
 

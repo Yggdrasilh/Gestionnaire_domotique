@@ -33,7 +33,7 @@ if (!$messageError) {
             <select class="form-select" id="editSelectPhotoModule" name="photo_module" data-photo="<?= $moduleData['photo_module'] ?>">
                 <option value="image/module_default.webp">Image par defaut</option>
                 <option value="image/module_lumiere.webp">Lumière</option>
-                <option value="image/module_portaille.webp">Portaille</option>
+                <option value="image/module_portaille.webp">Portail</option>
                 <option value="image/module_porte-garage.webp">Garage</option>
             </select>
             <label class="input-group-text" for="selectPhotoModule">Image du module</label>

@@ -29,6 +29,20 @@ class ModuleController extends Controller
         $this->render('home/index', ['moduleData' => $moduleData]);
     }
 
+    public function workModule($url)
+    {
+        $url = $url ?? '';
+
+        if (!empty($url) && isset($url)) {
+            // Appeler l'API pour récupérer mes foyers
+
+            $moduleAction = file_get_contents($url);
+            $result = json_decode($moduleAction, true);
+            // var_dump($result);
+            // die;
+        }
+    }
+
     public function add()
     {
 

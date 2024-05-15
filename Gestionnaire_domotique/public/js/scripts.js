@@ -1,4 +1,4 @@
-var urlSite = 'http://application/Gestionnaire_domotique/public/';
+var urlSite = 'https://monsite7946.000webhostapp.com/public/';
 // ***************************** Starter pack ***************************************************
 
 function fondFormExit(id) {
@@ -14,8 +14,92 @@ function close(tabl) {
     });
 }
 
+/**************** Inscription unique name */
+(typeof allNameUser != 'undefined') ? inscUniqueName(allNameUser.user) : null
+
+function inscUniqueName(user) {
+    let nom = document.getElementById('nom');
+    document.getElementById('envoyer').addEventListener('submit', function (e) {
+        e.preventDefault()
+        let validity = true;
+        user.forEach(elt => {
+
+            if (nom.value == elt.nom_utilisateur) {
+                nom.setAttribute('class', 'form-control is-invalid');
+
+                // Ajouter un nouvel élément pour le message d'erreur
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'invalid-feedback';
+                errorDiv.textContent = 'This username is already use !';
+                (document.querySelector('.invalid-feedback') == null) ? nom.parentElement.appendChild(errorDiv) : false;
+                validity = false;
+            }
+        });
+        (validity) ? document.getElementById('envoyer').submit() : null;
+    });
+}
 
 
+
+
+/**************** Responsive */
+var screenWidth = window.innerWidth;
+var screenHeight = window.innerHeight;
+// console.log(screenWidth, screenHeight);
+
+function orientationResponsiveStart(w, h) {
+    if (h > w && w <= 900) {
+        return true;
+    } else {
+        return false;
+    }
+}
+window.onresize = function () {
+    if (window.innerWidth != screenWidth) {
+        location.reload();
+        timerResize = setTimeout(
+            responsive(),
+            pushButton())
+    }
+
+}
+
+
+function responsive() {
+    screenWidth = window.innerWidth;
+    screenHeight = window.innerHeight;
+    let elt = document.getElementById('menuAside');
+    let button = document.getElementById('boutonBurger');
+    let orientation = orientationResponsiveStart(screenWidth, screenHeight);
+    if (orientation) {
+        elt.setAttribute('class', 'offcanvas offcanvas-start');
+        elt.dataset.bsScroll = false;
+        elt.dataset.bsBackdrop = true;
+
+        button.addEventListener('click', function (e) {
+
+            if (this.classList.value == 'close') {
+                document.getElementById('IconBurger').setAttribute('class', 'fa-solid fa-bars');
+                button.setAttribute('class', 'open');
+            } else if (this.classList.value == 'open') {
+                document.getElementById('IconBurger').setAttribute('class', 'fa-solid fa-xmark');
+                button.setAttribute('class', 'close');
+                document.querySelector('.offcanvas-backdrop').addEventListener('click', () => {
+                    document.getElementById('IconBurger').setAttribute('class', 'fa-solid fa-bars');
+                    button.setAttribute('class', 'open');
+                })
+            }
+        });
+
+    } else {
+        elt.setAttribute('class', 'offcanvas offcanvas-start show');
+        elt.dataset.bsScroll = true;
+        elt.dataset.bsBackdrop = false;
+    }
+}
+
+(document.getElementById('menuAside') != null) ? responsive() : null;
+/*************************** */
 
 // ********************************************************************************
 
@@ -27,13 +111,21 @@ selectFoyer.forEach((element) => {
 
     element.addEventListener("click", function () {
         let id_foyer = element.parentElement.getAttribute('id');
-        console.log(id_foyer);
+
         fetch(urlSite + "index.php?controller=Foyer&action=selectFoyer&id=" + id_foyer)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                if (data) {
-                    window.location.href = urlSite + "index.php?controller=Foyer&action=index";
+
+                if (data.reponse) {
+                    if ((document.querySelector(".selected") != null)) {
+                        document.querySelector(".selected").setAttribute('class', 'card mesFoyers')
+                    } else {
+                        location.reload();
+                    }
+                    document.getElementById(id_foyer).setAttribute('class', 'card mesFoyers selected')
+                    document.getElementById('divFoyerNom').innerHTML = data.nom;
+                } else {
+                    alert("Erreur de chargement des données est survenue, veuillez actualiser la page")
                 }
             })
     });
@@ -61,8 +153,8 @@ suppFoyer.forEach(element => {
 
 });
 
-// ******************* Phase de teste *********************************************************************************
-function traitementEditFoyer(urlRemove, urlsend, bouton) {
+// ******************* Formulaire d'update et traitement des données
+function traitementEditFoyer(urlRemove, urlsend, bouton, id) {
 
     document.getElementById(bouton).addEventListener("submit", function (event) {
         event.preventDefault(); // Empêche le comportement par défaut du formulaire
@@ -70,33 +162,42 @@ function traitementEditFoyer(urlRemove, urlsend, bouton) {
 
         // Crée un objet FormData pour rassembler les données du formulaire, y compris les fichiers
         var formData = new FormData(form);
-        for (const [name, value] of formData.entries()) {
-            console.log(name + ': ' + value);
-        }
+
         // Envoie les données au serveur en utilisant la méthode fetch()
         fetch(urlsend, {
             method: "POST",
             body: formData,
-            headers: {
-                'Content-Type': 'application/multipart/form-data'
-            }
+            // headers: {
+            //     'Content-Type': 'application/multipart/form-data'
+            // }
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log(data); // Affiche la réponse du serveur dans la console
-                console.log(urlRemove);
+                if (data.reponse == true) {
+                    close(urlRemove);//ferme la popup d'update
+                    document.querySelector('.img' + id).src = data.image;
+                    document.querySelector('.title' + id).innerHTML = data.title;
+                    document.querySelector('.ef' + id).dataset.image = data.image;
+                    document.querySelector('.ef' + id).dataset.nom = data.title;
+                    if (document.getElementById(id).getAttribute('class') == 'card mesFoyers selected') {
+                        document.getElementById('divFoyerNom').innerHTML = data.title;
+                    }
+
+                }
             })
             .catch(error => {
                 console.error(error); // Affiche les erreurs dans la console
+                alert('Une erreur est survenu veillez recommencer!');
             });
     });
 
 }
 
 
+
 let editFoyer = document.querySelectorAll(".editFoyer");
 editFoyer.forEach(element => {
-    element.addEventListener("click", function () {
+    element.addEventListener("click", function () { // apès une première update, les données du formulaire ne se réactualise pas, (reste sur la même image)
         let id_foyer = this.dataset.id;
         let image_foyer = this.dataset.image;
         let nom_foyer = this.dataset.nom;
@@ -124,7 +225,7 @@ editFoyer.forEach(element => {
             <input type="number" class="form-control" id="idFoyerUpdate" name="id_foyer" value="${id_foyer}">
         </div>
     
-        <input class="btn btn-primary" type="submit" id="submitFoyerUpdate" value="Update">
+        <input class="btn btn-primary" type="submit" id="submitFoyerUpdate">
     </form> <div id="exitForm"></div>`;
 
         document.getElementById('imageFoyerUpdate').childNodes.forEach(e => {
@@ -133,11 +234,50 @@ editFoyer.forEach(element => {
             }
         });
         fondFormExit('foyerUpdateForm');
-        let close = ['foyerUpdateForm', 'exitForm']
-        traitementEditFoyer(close, "index.php?controller=Foyer&action=update", 'submitFoyerUpdate');
+        let close = ['foyerUpdateForm', 'exitForm'];
+        let id = id_foyer;
+        traitementEditFoyer(close, "index.php?controller=Foyer&action=update", 'foyerUpdateForm', id);
     })
 });
+
+
 // ***************************** Suppression & edition des Utilisateurs du foyer 
+
+// ******************* Formulaire d'update et traitement des données
+function traitementEditUserOfFoyer(urlRemove, urlsend, bouton, id) {
+
+    document.getElementById(bouton).addEventListener("submit", function (event) {
+        event.preventDefault(); // Empêche le comportement par défaut du formulaire
+        var form = event.target; // Récupère le formulaire qui a déclenché l'événement
+
+        // Crée un objet FormData pour rassembler les données du formulaire, y compris les fichiers
+        var formData = new FormData(form);
+
+        // Envoie les données au serveur en utilisant la méthode fetch()
+        fetch(urlsend, {
+            method: "POST",
+            body: formData,
+            // headers: {
+            //     'Content-Type': 'application/multipart/form-data'
+            // }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.reponse == true) {
+                    close(urlRemove);//ferme la popup d'update
+                    document.querySelector('.role' + id).innerHTML = data.role;
+                    document.querySelector('.euof' + id).dataset.role = data.role;
+                }
+            })
+            .catch(error => {
+                console.error(error); // Affiche les erreurs dans la console
+                alert('Une erreur est survenu veillez recommencer!');
+            });
+    });
+
+}
+
 let suppUserOfFoyer = document.querySelectorAll(".suppUserOfFoyer");
 suppUserOfFoyer.forEach(element => {
     element.addEventListener("click", function () {
@@ -192,7 +332,7 @@ editUserOfFoyer.forEach(element => {
         });
         fondFormExit('updateRoleForm');
         let close = ['updateRoleForm', 'exitForm']
-        traitementEditFoyer(close, "index.php?controller=Foyer&action=updateUserRole", 'submitRoleUserFoyerUpdate');
+        traitementEditUserOfFoyer(close, "index.php?controller=Foyer&action=updateUserRole", 'updateRoleForm', idLink);
     });
 
 });
@@ -202,58 +342,94 @@ editUserOfFoyer.forEach(element => {
 // ********************************************************************************
 
 // ***************************** Fonctionnement des modules ***************************************************
+var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
 let toggleModules = document.querySelectorAll(".toggleModule");
 toggleModules.forEach(element => {
     element.addEventListener("click", function () {
         if (this.getAttribute('class') == 'card text-bg-dark toggleModule') {
 
-            fetch(this.dataset.urlopen);
+            fetch(proxyUrl + this.dataset.urlopen)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.error('Erreur :', error);
+                });
             this.setAttribute('class', 'card text-bg-dark toggleModule enable');
-            console.log(this.dataset.urlopen);
+
 
         } else if (this.getAttribute('class') == 'card text-bg-dark toggleModule enable') {
 
-            fetch(this.dataset.urlclose);
+            fetch(proxyUrl + this.dataset.urlclose)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.error('Erreur :', error);
+                });
             this.setAttribute('class', 'card text-bg-dark toggleModule');
-            console.log(this.dataset.urlclose);
+
         }
     });
 
 });
 
 let timerModule = document.querySelectorAll(".timerModule");
-toggleModules.forEach(element => {
+timerModule.forEach(element => {
+    let TimerID
     element.addEventListener("click", function () {
-        console.log('timer');
         if (this.getAttribute('class') == 'card text-bg-dark timerModule') {
 
-            fetch(this.dataset.urlopen);
+            fetch(proxyUrl + this.dataset.urlopen);
             this.setAttribute('class', 'card text-bg-dark timerModule enable');
             let time = this.dataset.timer * 1000; // Convertion de secondes en millisecond
             console.log(this.dataset.urlopen);
 
-            setTimeout(() => {
-                fetch(this.dataset.urlclose);
+            TimerID = setTimeout(() => {
+                fetch(proxyUrl + this.dataset.urlclose);
                 this.setAttribute('class', 'card text-bg-dark timerModule');
                 console.log(this.dataset.urlclose);
             }, time);
 
         } else if (this.getAttribute('class') == 'card text-bg-dark timerModule enable') {
-
-            fetch(this.dataset.urlclose);
+            fetch(proxyUrl + this.dataset.urlclose);
             this.setAttribute('class', 'card text-bg-dark timerModule');
-            console.log(object);
-            clearTimeout();
+            clearTimeout(TimerID);
             console.log(this.dataset.urlclose);
         }
     });
 
 });
 
+function pushButton() {
+    let pushModule = document.querySelectorAll(".pushModule");
+    let touchTypeOpen;
+    let touchTypeClose;
+    pushModule.forEach(element => {
+        if (orientationResponsiveStart(screenWidth, screenHeight)) {
+            touchTypeOpen = "touchstart";
+            touchTypeClose = "touchend";
+        } else {
+            touchTypeOpen = "mousedown";
+            touchTypeClose = "mouseup";
+        }
+        element.addEventListener(touchTypeOpen, function () {
+            fetch(proxyUrl + this.dataset.urlopen);
+            console.log(this.dataset.urlopen);
+        });
+        element.addEventListener(touchTypeClose, function () {
+            fetch(proxyUrl + this.dataset.urlclose);
+            console.log(this.dataset.urlclose);
+        });
+
+    });
+}
+
+pushButton();
 
 // ***************************** Selection du type de module
 function typeModule(type) {
-    console.log(document.getElementById('typeSelected').value);
     document.getElementById('typeSelected').value = type;
 }
 
@@ -306,78 +482,48 @@ document.querySelectorAll('.deleteModule').forEach((elt) => {
 
 // ***************************** Edit module
 
-document.getElementById('editSelectPhotoModule').childNodes.forEach(e => {
-    let photo = document.getElementById('editSelectPhotoModule').dataset.photo;
-    if (e.value == photo) {
-        e.selected = true;
-    }
-});
+if (document.getElementById('editSelectPhotoModule') != null) {
 
-document.getElementById('selectTypeEdit_module').childNodes.forEach(e => {
-    let type = document.getElementById('selectTypeEdit_module').dataset.type;
-    if (e.value == type) {
-        e.selected = true;
-        if (type == 'range' || type == 'switch') {
-            document.getElementById("varInputeEditModule").setAttribute('hidden', false)
-        } else {
-            document.getElementById("varInputeEditModule").setAttribute('hidden', true)
+    document.getElementById('editSelectPhotoModule').childNodes.forEach(e => {
+        let photo = document.getElementById('editSelectPhotoModule').dataset.photo;
+        if (e.value == photo) {
+            e.selected = true;
         }
-        if (type == 'timer') {
-            document.getElementById("timerInputeEditModule").setAttribute('hidden', false)
+    });
+
+    document.getElementById('selectTypeEdit_module').childNodes.forEach(e => {
+        let type = document.getElementById('selectTypeEdit_module').dataset.type;
+        if (e.value == type) {
+            e.selected = true;
+            if (type == 'range' || type == 'switch') {
+                document.getElementById("varInputeEditModule").removeAttribute('hidden')
+            } else {
+                document.getElementById("varInputeEditModule").setAttribute('hidden', true)
+            }
+            if (type == 'timer') {
+                document.getElementById("timerInputeEditModule").removeAttribute('hidden')
+            } else {
+                document.getElementById("timerInputeEditModule").setAttribute('hidden', true)
+            }
+        }
+
+    });
+
+    document.getElementById('selectTypeEdit_module').addEventListener('change', function () {
+        let type = this.value;
+        if (type == 'range' || type == 'switch') {
+            document.getElementById("varInputeEditModule").removeAttribute('hidden')
+            document.getElementById("timerInputeEditModule").setAttribute('hidden', true)
+        } else if (type == 'timer') {
+            document.getElementById("varInputeEditModule").setAttribute('hidden', true)
+            document.getElementById("timerInputeEditModule").removeAttribute('hidden')
         } else {
             document.getElementById("timerInputeEditModule").setAttribute('hidden', true)
+            document.getElementById("varInputeEditModule").setAttribute('hidden', true)
         }
-    }
-
-});
-
-document.getElementById('selectTypeEdit_module').addEventListener('change', function () {
-    let type = this.value;
-    if (type == 'range' || type == 'switch') {
-        document.getElementById("varInputeEditModule").setAttribute('hidden', false)
-        document.getElementById("timerInputeEditModule").setAttribute('hidden', true)
-    } else if (type == 'timer') {
-        document.getElementById("varInputeEditModule").setAttribute('hidden', true)
-        document.getElementById("timerInputeEditModule").setAttribute('hidden', false)
-    } else {
-        document.getElementById("timerInputeEditModule").setAttribute('hidden', true)
-        document.getElementById("varInputeEditModule").setAttribute('hidden', true)
-    }
-});
-
+    });
+}
 
 
 // ********************************************************************************
 
-
-// document.getElementById("my-form").addEventListener("submit", function (event) {
-//     event.preventDefault(); // Empêche le comportement par défaut du formulaire
-//     var form = event.target; // Récupère le formulaire qui a déclenché l'événement
-
-//     // Crée un objet FormData pour rassembler les données du formulaire, y compris les fichiers
-//     var formData = new FormData(form);
-//     for (const [name, value] of formData.entries()) {
-//         console.log(name + ': ' + value);
-//     }
-//     // Envoie les données au serveur en utilisant la méthode fetch()
-//     fetch("index.php?controller=creation&action=add", {
-//         method: "POST",
-//         body: formData,
-//         headers: {
-//             'Content-Type': 'application/multipart/form-data'
-//         }
-//     })
-//         .then(response => response.text())
-//         .then(data => {
-//             console.log(data); // Affiche la réponse du serveur dans la console
-//             // Vous pouvez mettre à jour la vue en fonction de la réponse du serveur
-//             // Par exemple, si vous avez une div avec l'id "response" dans votre HTML :
-//             document.getElementById("response").innerHTML = "l'ajout a été effectué";
-//         })
-//         .catch(error => {
-//             console.error(error); // Affiche les erreurs dans la console
-//             // Vous pouvez afficher un message d'erreur à l'utilisateur
-//             // Par exemple, si vous avez une div avec l'id "error" dans votre HTML :
-//             document.getElementById("error").innerHTML = "Une erreur s'est produite : " + error.message;
-//         });
-// });
