@@ -12,8 +12,8 @@ abstract class Controller
 {
 
 
-    protected $baseUrlApi = "https://monsite7946.000webhostapp.com/Api_GD/public/";  // Base d'url pour l'API
-    protected $baseUrlSite = "https://monsite7946.000webhostapp.com/public/"; //base d'url pour le Site
+    protected $baseUrlApi = "https://";  // Base d'url pour l'API
+    protected $baseUrlSite = "https://"; //base d'url pour le Site
 
 
 
