@@ -10,10 +10,10 @@ class Dbconnect
     protected $_connect;
     protected $request;
 
-    const SERVER = "localhost";
-    const USER = "root";
+    const SERVER = "";
+    const USER = "";
     const PASSWORD = "";
-    const BASE = "api_gd";
+    const BASE = "";
 
     public function __construct()
     {
