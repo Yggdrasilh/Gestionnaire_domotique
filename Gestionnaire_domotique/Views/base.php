@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="fr">
 
 <head>
+    <html lang="fr">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
@@ -49,14 +49,20 @@
                 // var_dump($roleFoyer);
                 // die;
                 switch ($roleFoyer) {
-                    case 'admin' || 'modo':
+                    case 'admin':
                         $urlTb = 'index.php?controller=Module&action=tableauBord';
                         $urlAm = 'index.php?controller=Module&action=add';
                         $urlUf = 'index.php?controller=Foyer&action=userOfFoyer';
                         $disable = "class='actionBurger'";
                         $disable2 = "class='actionBurger'";
                         break;
-
+                    case 'modo':
+                        $urlTb = 'index.php?controller=Module&action=tableauBord';
+                        $urlAm = 'index.php?controller=Module&action=add';
+                        $urlUf = 'index.php?controller=Foyer&action=userOfFoyer';
+                        $disable = "class='actionBurger'";
+                        $disable2 = "class='actionBurger'";
+                        break;
                     case 'user':
                         $urlTb = '#';
                         $urlAm = '#';
@@ -74,15 +80,8 @@
                         break;
                 }
             ?>
-                <!-- data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" -->
+                <!--  class="offcanvas offcanvas-start" -->
                 <aside id="menuAside" class="offcanvas offcanvas-start show" tabindex="-1" data-bs-scroll="true" data-bs-backdrop="false" aria-labelledby="menuAsideLabel" aria-modal="true" role="dialog">
-                    <div id="compteUserBurger">
-                        <a href="index.php?controller=User&action=profil" id="boutonUser">
-                            <figure id="photoUser"><img src="<?= $photoUser ?>" alt="photo utilisateur"></figure>
-                            <p id="textePhotoUser">Mon compte</p>
-                        </a>
-                        <figure id="boutonDeconnection"><a href="http://application/Gestionnaire_domotique/public/"><i class="fa-solid fa-right-from-bracket"></i></a></figure>
-                    </div>
                     <div class="sectionBurger" id="Affichage">
                         <h5>Affichage</h5>
                         <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Cette fonctionnalité est en cours de développement et n'est pas disponible pour l'instant !">
@@ -126,6 +125,13 @@
                         </a>
                     </div>
                     <div class="sectionBurger" style="display: none;"></div>
+                    <div id="compteUserBurger">
+                        <a href="index.php?controller=User&action=profil" id="boutonUser">
+                            <figure id="photoUser"><img src="<?= $photoUser ?>" alt="photo utilisateur"></figure>
+                            <p id="textePhotoUser">Mon compte</p>
+                        </a>
+                        <figure id="boutonDeconnection"><a href="index.php?controller=User&action=logout"><i class="fa-solid fa-right-from-bracket"></i></a></figure>
+                    </div>
                 </aside>
 
 

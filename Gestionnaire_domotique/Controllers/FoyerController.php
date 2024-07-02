@@ -28,14 +28,13 @@ class FoyerController extends Controller
         $apiData = file_get_contents($apiUrl);
         $foyerData = json_decode($apiData, true);
 
-
         if (!empty($foyerData['foyer'])) {
             $_SESSION['id_foyer'] = $foyerData['foyer']['id'];
             $_SESSION['nom_foyer'] = $foyerData['foyer']['nom_foyer'];
             $_SESSION['photo_foyer'] = $foyerData['foyer']['photo_foyer'];
             $_SESSION['role_foyer'] = $foyerData['foyer']['role_utilisateur'];
 
-            echo json_encode(array('reponse'  => true));
+            echo json_encode(array('reponse'  => true, 'nom' => $foyerData['foyer']['nom_foyer']));
         } else {
             echo json_encode(array('reponse'  => false));
         }
@@ -118,6 +117,7 @@ class FoyerController extends Controller
     public function update()
     {
 
+
         $keys = [
             'nom_foyer',
             'photo_foyer',
@@ -132,8 +132,8 @@ class FoyerController extends Controller
                 $foyerId = $this->protected_values($_POST['id_foyer']);
                 $foyerNom = $this->protected_values($_POST['nom_foyer']);
                 if (isset($_FILES['photo_foyer']) && ($_FILES['photo_foyer']['error'] == 0)) {
-                    move_uploaded_file($_FILES['photo_foyer']['tmp_name'], 'image/' . $_FILES['image']['name']);
-                    $foyerPhoto = $this->protected_values('image/' . $_FILES['image']['name']);
+                    move_uploaded_file($_FILES['photo_foyer']['tmp_name'], 'image/' . $_FILES['photo_foyer']['name']);
+                    $foyerPhoto = $this->protected_values('image/' . $_FILES['photo_foyer']['name']);
                 } else {
                     $foyerPhoto = $this->protected_values($_POST['photo_foyer'] ?? 'image/maison.webp');
                 }
@@ -169,15 +169,15 @@ class FoyerController extends Controller
                 // Vérifier le résultat de la requête
                 if ($result != '{"status":true}') {
                     // Gestion des erreurs
-                    echo  "<script>
+                    echo  `<script>
                     window.onload = function() {
-                      alert('Une erreur s'est produite lors de l'envoie des données. 
-                      Veuillez actualiser la page et recommencer !');
+                      alert("Une erreur s'est produite lors de l'envoie des données. 
+                      Veuillez actualiser la page et recommencer !");
                     };
-                  </script>";
+                  </script>`;
                 } else {
-
-                    header('location:' . $this->baseUrlSite . 'index.php?controller=Foyer&action=index');
+                    echo json_encode(array('reponse'  => true, 'image' => $foyerPhoto, 'title' => $foyerNom));
+                    // header('location:' . $this->baseUrlSite . 'index.php?controller=Foyer&action=index');
                 }
             } else {
                 echo "<script>
@@ -322,8 +322,7 @@ class FoyerController extends Controller
                     };
                   </script>";
             } else {
-
-                header('location:' . $this->baseUrlSite . 'index.php?controller=Foyer&action=userOfFoyer');
+                echo json_encode(array('reponse'  => true, 'role' => $foyerRole));
             }
         } else {
             echo  "<script>

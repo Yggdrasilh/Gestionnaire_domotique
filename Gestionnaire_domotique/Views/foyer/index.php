@@ -14,17 +14,17 @@ if (!$myFoyerData) {
         <?php
         // Création des modules en fonction de leur type 
         foreach ($myFoyerData['avoir'] as $value) {
-            $borderThisFoyer = $value['id_foyer'] == $sessFoyer ? "style=' border: solid 4px #0D6EFD;'" : ''
+            $borderThisFoyer = $value['id_foyer'] == $sessFoyer ? " selected" : ''
         ?>
-            <div id="<?= $value['id_foyer'] ?>" class="card mesFoyers" <?= $borderThisFoyer ?>>
-                <img src="<?= $value['photo_foyer'] ?>" class="card-img-top imgFoyers" alt="<?= $value['nom_foyer'] ?>">
+            <div id="<?= $value['id_foyer'] ?>" class="card mesFoyers<?= $borderThisFoyer ?>">
+                <img src="<?= $value['photo_foyer'] ?>" class="card-img-top imgFoyers img<?= $value['id_foyer'] ?>" alt="<?= $value['nom_foyer'] ?>">
                 <div class="card-body">
-                    <h5 class="card-text"><?= $value['nom_foyer'] ?></h5>
+                    <h5 class="card-text title<?= $value['id_foyer'] ?>"><?= $value['nom_foyer'] ?></h5>
                     <?php
                     if ($value['role_utilisateur'] == 'admin') {
                     ?>
                         <div class="actionAdminFoyer">
-                            <button type="button" class="btn btn-outline-primary editFoyer" data-id="<?= $value['id_foyer'] ?>" data-image="<?= $value['photo_foyer'] ?>" data-nom="<?= $value['nom_foyer'] ?>">Update</button>
+                            <button type="button" class="btn btn-outline-primary editFoyer ef<?= $value['id_foyer'] ?>" data-id="<?= $value['id_foyer'] ?>" data-image="<?= $value['photo_foyer'] ?>" data-nom="<?= $value['nom_foyer'] ?>">Update</button>
                             <button type="button" class="btn btn-outline-danger suppFoyer" data-id="<?= $value['id_foyer'] ?>">Delete</button>
                         </div>
                     <?php

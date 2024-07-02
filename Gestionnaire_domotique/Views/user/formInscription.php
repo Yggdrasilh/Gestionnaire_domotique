@@ -13,7 +13,7 @@ $userAllData = json_encode($userAllData);
     <form id="envoyer" class="formadd" method="post" action="index.php?controller=user&action=inscription" enctype='multipart/form-data'>
         <div class="mb-3">
             <label for="nom" class="form-label">Nom : </label>
-            <input name="nom_user" type="text" class="form-control" id="nom">
+            <input name="nom_user" type="text" class="form-control" id="nom" required>
         </div>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email : </label>
@@ -33,5 +33,4 @@ $userAllData = json_encode($userAllData);
 
 <script>
     var allNameUser = JSON.parse('<?php echo $userAllData; ?>');
-    console.log(allNameUser.user);
 </script>

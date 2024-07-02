@@ -152,7 +152,7 @@ class UserController extends Controller
                     Votre compte a bien été créé - Connectez vous !
                   </div>";
 
-                    $this->render('user/formConnexion', ['messageError' => $messageError]);
+                    header('location:' . $this->baseUrlSite . 'index.php?controller=User&action=login');
                 }
             } else {
                 $messageError =  "<script>
@@ -254,6 +254,7 @@ class UserController extends Controller
     public function updateProfil()
     {
         $messageError = '';
+
         if (Validator::validPostGlobal()) {
             $newNomUser = $_POST['nom_user'] ?? '';
             $newEmailUser = $_POST['email_user'] ?? '';
@@ -278,26 +279,20 @@ class UserController extends Controller
 
             $context = stream_context_create($options);
             $result = file_get_contents($apiUrl, false, $context);
+            $result = json_decode($result, true);
 
-            if ($result !== false) {
-                $responseData = json_decode($result, true);
-                if ($responseData['status']) {
-                    // Mettre à jour les données dans $_SESSION
-                    $_SESSION['nom_utilisateur'] = $newNomUser;
-                    $_SESSION['email_utilisateur'] = $newEmailUser;
-                    $_SESSION['photo_utilisateur'] = $_SESSION['photo_utilisateur'];
-                    header('location:' . $this->baseUrlSite . 'index.php?controller=user&action=profil');
-                } else {
-                    $messageError =  "
+            if ($result['status'] === true) {
+
+                // Mettre à jour les données dans $_SESSION
+                $_SESSION['nom_utilisateur'] = $newNomUser;
+                $_SESSION['email_utilisateur'] = $newEmailUser;
+                $_SESSION['photo_utilisateur'] = $_SESSION['photo_utilisateur'];
+                header('location:' . $this->baseUrlSite . 'index.php?controller=user&action=profil');
+            } else {
+                $messageError = "
                     <div class='alert alert-warning' role='alert'>
                         Une erreur s'est produite lors de la mise à jour du profil. Veuillez recommencer !
                     </div>";
-                }
-            } else {
-                $messageError =  "
-                <div class='alert alert-warning' role='alert'>
-                    Une erreur s'est produite lors de l'envoi des données au serveur. Veuillez recommencer !
-                </div>";
             }
         }
 

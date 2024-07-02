@@ -33,14 +33,14 @@ if (!$myFoyerData) {
                     ?>
                         <div class="actionAdminFoyer">
                             <button type="button" class="btn btn-danger suppUserOfFoyer" data-id="<?= $value['id_avoir'] ?>" data-idUser="<?= $value['id_utilisateur'] ?>">Remove</button>
-                            <button type="button" class="btn btn-primary editUserOfFoyer" data-id="<?= $value['id_avoir'] ?>" data-idUser="<?= $value['id_utilisateur'] ?>" data-role="<?= $value['role_utilisateur'] ?>">Role</button>
+                            <button type="button" class="btn btn-primary editUserOfFoyer euof<?= $value['id_avoir'] ?>" data-id="<?= $value['id_avoir'] ?>" data-idUser="<?= $value['id_utilisateur'] ?>" data-role="<?= $value['role_utilisateur'] ?>" data-name="<?= $value['nom_utilisateur'] ?>">Role</button>
                         </div>
                     <?php
                     } elseif ($authorisation == 'modo' && $value['role_utilisateur'] != 'admin') {
                     ?>
                         <div class="actionAdminFoyer">
                             <button type="button" class="btn btn-danger suppUserOfFoyer" data-id="<?= $value['id_avoir'] ?>" data-idUser="<?= $value['id_utilisateur'] ?>">Remove</button>
-                            <button type="button" class="btn btn-primary editUserOfFoyer" data-id="<?= $value['id_avoir'] ?>" data-idUser="<?= $value['id_utilisateur'] ?>" data-role="<?= $value['role_utilisateur'] ?>" data-name="<?= $value['nom_utilisateur'] ?>">Update role</button>
+                            <button type="button" class="btn btn-primary editUserOfFoyer euof<?= $value['id_avoir'] ?>" data-id="<?= $value['id_avoir'] ?>" data-idUser="<?= $value['id_utilisateur'] ?>" data-role="<?= $value['role_utilisateur'] ?>" data-name="<?= $value['nom_utilisateur'] ?>">Role</button>
                         </div>
                     <?php
                     }

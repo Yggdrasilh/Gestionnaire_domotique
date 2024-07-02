@@ -28,11 +28,14 @@ if (!$moduleData) {
                 case 'toggle':
         ?>
                     <div class="card text-bg-dark toggleModule" id="<?= $value['id_module'] ?>" data-urlopen="<?= $value['url_open_module'] ?>" data-urlclose="<?= $value['url_close_module'] ?>">
-                        <img src="<?= $value['photo_module'] ?>" class="card-img" alt="<?= $value['nom_module'] ?>">
-                        <div class="card-img-overlay">
-                            <h5 class="card-title"><?= $value['nom_module']; ?></h5>
-                        </div>
+                        <a id="link<?= $value['id_module'] ?>" href="<?= $value['url_open_module'] ?>" target="_blank" style="color: var(--bs-card-title-color);">
+                            <img src="<?= $value['photo_module'] ?>" class="card-img" alt="<?= $value['nom_module'] ?>">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title"><?= $value['nom_module']; ?></h5>
+                            </div>
+                        </a>
                     </div>
+
                 <?php
                     break;
 
